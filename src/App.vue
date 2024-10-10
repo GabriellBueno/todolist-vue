@@ -1,5 +1,8 @@
 <script setup>
 import { reactive } from 'vue';
+import Cabecalho from './components/Cabecalho.vue';
+import Formulario from './components/Formulario.vue';
+import Lista_de_Tarefas from './components/Lista_de_Tarefas.vue';
 
 const estado = reactive({
 
@@ -56,39 +59,9 @@ const cadastra_tarefa = () => {
 
 <template>
   <div class="container">
-    <header class="p-5 mb-4 mt-4 bg-light rounded-3">
-      <h1>Minhas Tarefas</h1>
-      <p>
-        Voce possui {{ get_tarefas_pendentes().length }} Tarefas pendentes
-      </p>
-    </header>
-    <form @submit.prevent="cadastra_tarefa">
-      <div class="row">
-        <div class="col">
-          <input :value="estado.tarefa_temp" @change="evento => estado.tarefa_temp = evento.target.value" required
-            type="text" placeholder="Digite aqui a descrição da tarefa" class="form-control">
-        </div>
-        <div class="col-md-2">
-          <button type="submit" class="btn btn-primary">Cadastrar</button>
-        </div>
-        <div class="col-md-2">
-          <select @change="evento => estado.filtro = evento.target.value" class="form-control">
-            <option value="todas">Todas Tarefas</option>
-            <option value="pendentes">Pendentes</option>
-            <option value="finalizadas">Finalizadas</option>
-          </select>
-        </div>
-      </div>
-    </form>
-    <ul class="list-group mt-4">
-      <li class="list-group-item" v-for="tarefa in get_tarefas_filtradas()">
-        <input @change="evento => tarefa.finalizada = evento.target.checked" :checked="tarefa.finalizada"
-          :id="tarefa.titulo" type="checkbox">
-        <label :class="{ done: tarefa.finalizada }" class="ms-3" :for="tarefa.titulo">
-          {{ tarefa.titulo }}
-        </label>
-      </li>
-    </ul>
+    <Cabecalho :tarefas_-pendentes="get_tarefas_pendentes().length"></Cabecalho>
+    <Formulario :trocar_filtro="evento => estado.filtro = evento.target.value" :tarefa_-temp="estado.tarefa_Temp" :edita_-tarefa_-temp="evento => estado.tarefa_temp = evento.target.value" :cadastra_-tarefa="cadastra_tarefa"></Formulario>
+    <Lista_de_Tarefas :tarefas="get_tarefas_filtradas()"></Lista_de_Tarefas>
   </div>
 </template>
 
